@@ -74,6 +74,7 @@ void Animations()
 {
  animator.SetFloat("VelocityX", Mathf.Abs(rb.linearVelocityX));
  animator.SetFloat("VelocityY", Mathf.Abs(rb.linearVelocityY));
+ animator.SetBool("IsGrounded", isGrounded);
 }
 
     private void FixedUpdate()
