@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -14,11 +15,22 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI currentLifePointsText;
+
+    [SerializeField]
+    private HealthBar healthBar;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+[SerializeField]
+    private SpriteRenderer sr;
+
+
     void Awake()
     {
         currentLifePoints = maxLifePoints;
         currentLifePointsText.SetText(currentLifePoints.ToString());
+        healthBar.SetHealth((float) currentLifePoints / maxLifePoints);
     }
 
     public void TakeDamage(int damage = 1)
@@ -32,6 +44,8 @@ public class PlayerHealth : MonoBehaviour
         currentLifePoints = Mathf.Clamp(currentLifePoints-damage,0,maxLifePoints);
         currentLifePointsText.SetText(currentLifePoints.ToString());
 
+        healthBar.SetHealth((float) currentLifePoints / maxLifePoints);
+
         if (currentLifePoints == 0)
         {
             Debug.Log("Game over");
@@ -40,19 +54,37 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator InvulnerableDuration()
     {
-        float duration = 5f;
-        // float timeElapsed = 0f;
 
-        yield return new WaitForSeconds(duration);
+        isInvulnerable = true;
+        float duration = 1.25f;
+        float timeElapsed = 0f;
+        float flashDuration = 0.2f;
+        float flashTimeElapsed = 0f;
         Debug.Log("End");
 
-        // while(timeElapsed < duration)
-        // {
-        //     timeElapsed += Time.deltaTime;
+bool isVisible = true;
 
-        //     yield return null;
-        // }
+     while(timeElapsed < duration)
+    {
+        timeElapsed += Time.deltaTime;
+        flashTimeElapsed += Time.deltaTime;
+        if (flashTimeElapsed >= flashDuration)
+        {
+          if (isVisible)
+          {
+            sr.color = Color.clear;
+          }
+          else
+          {
+              sr.color = Color.white;
+          }
+          flashTimeElapsed = 0f;
+            isVisible = !isVisible;
+        }
 
+       yield return null;
+}
+        sr.color = Color.white;
         isInvulnerable = false;
     }
 }
