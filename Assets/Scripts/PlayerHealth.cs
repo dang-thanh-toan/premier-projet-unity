@@ -7,9 +7,9 @@ using UnityEngine.Rendering;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField]
-    private int currentLifePoints;
+    private IntVariable currentLifePoints;
     [SerializeField]
-    private int maxLifePoints;
+    private IntVariable maxLifePoints;
 
     private bool isInvulnerable = false;
 
@@ -28,9 +28,9 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
-        currentLifePoints = maxLifePoints;
-        currentLifePointsText.SetText(currentLifePoints.ToString());
-        healthBar.SetHealth((float) currentLifePoints / maxLifePoints);
+        currentLifePoints.CurrentValue = maxLifePoints.CurrentValue;
+        currentLifePointsText.SetText(currentLifePoints.CurrentValue.ToString());
+        healthBar.SetHealth((float) currentLifePoints.CurrentValue / maxLifePoints.CurrentValue);
     }
 
     public void TakeDamage(int damage = 1)
@@ -41,12 +41,12 @@ public class PlayerHealth : MonoBehaviour
         }
         isInvulnerable = true;
         StartCoroutine(InvulnerableDuration());
-        currentLifePoints = Mathf.Clamp(currentLifePoints-damage,0,maxLifePoints);
-        currentLifePointsText.SetText(currentLifePoints.ToString());
+        currentLifePoints.CurrentValue = Mathf.Clamp(currentLifePoints.CurrentValue-damage,0,maxLifePoints.CurrentValue);
+        currentLifePointsText.SetText(currentLifePoints.CurrentValue.ToString());
 
-        healthBar.SetHealth((float) currentLifePoints / maxLifePoints);
+        healthBar.SetHealth((float) currentLifePoints.CurrentValue / maxLifePoints.CurrentValue);
 
-        if (currentLifePoints == 0)
+        if (currentLifePoints.CurrentValue == 0)
         {
             Debug.Log("Game over");
         }
