@@ -1,6 +1,6 @@
 using UnityEngine;
 
 [CreateAssetMenu(
-    fileName = "IntEventChannel",
+    fileName = "VoidEventChannel",
     menuName = "Scriptable Objects/Event Channels/Void")]
-public class IntEventChannel : EventChannel { }
+public class VoidEventChannel : EventChannel { }

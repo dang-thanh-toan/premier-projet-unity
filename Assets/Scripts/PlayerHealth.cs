@@ -16,8 +16,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI currentLifePointsText;
 
-    [SerializeField]
-    private HealthBar healthBar;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,12 +24,16 @@ public class PlayerHealth : MonoBehaviour
 [SerializeField]
     private SpriteRenderer sr;
 
+    [SerializeField]
+
+    private VoidEventChannel OnTakeDamage;
+
 
     void Awake()
     {
         currentLifePoints.CurrentValue = maxLifePoints.CurrentValue;
         currentLifePointsText.SetText(currentLifePoints.CurrentValue.ToString());
-        healthBar.SetHealth((float) currentLifePoints.CurrentValue / maxLifePoints.CurrentValue);
+      
     }
 
     public void TakeDamage(int damage = 1)
@@ -39,12 +42,13 @@ public class PlayerHealth : MonoBehaviour
         {
             return;
         }
+        OnTakeDamage.Raise();
         isInvulnerable = true;
         StartCoroutine(InvulnerableDuration());
         currentLifePoints.CurrentValue = Mathf.Clamp(currentLifePoints.CurrentValue-damage,0,maxLifePoints.CurrentValue);
         currentLifePointsText.SetText(currentLifePoints.CurrentValue.ToString());
 
-        healthBar.SetHealth((float) currentLifePoints.CurrentValue / maxLifePoints.CurrentValue);
+        
 
         if (currentLifePoints.CurrentValue == 0)
         {
