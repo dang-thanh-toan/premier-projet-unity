@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a49de6fea85441fa232e456f4f9ea5, type: 3}
   m_Name: PlayerMaxLifePoints
   m_EditorClassIdentifier: Assembly-CSharp::IntVariable
-  CurrentValue: 5
+  CurrentValue: 20
   DeveloperDescription: 
